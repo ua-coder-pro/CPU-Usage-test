@@ -19,6 +19,7 @@ class App extends Component {
         return response.json();
       })
       .then(responseJson => {
+        console.log('responseJson', responseJson)
         this.setState({
           avgValue: responseJson.data.avg,
           seconds: this.state.seconds + 1,

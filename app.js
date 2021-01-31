@@ -13,11 +13,14 @@ let intervalStarted = false;
 const os = require("os");
 let avg = 0;
 let n = 2;
+let cpus = null
+let userInfo = null
 
 function cpuAverage() {
   let totalIdle = 0,
     totalTick = 0;
-  let cpus = os.cpus();
+  cpus = os.cpus();
+  userInfo = os.userInfo()
 
   for (let i = 0, len = cpus.length; i < len; i++) {
     let cpu = cpus[i];
@@ -29,7 +32,8 @@ function cpuAverage() {
 
   return {
     idle: totalIdle / cpus.length,
-    total: totalTick / cpus.length
+    total: totalTick / cpus.length,
+    cpus: cpus,
   };
 }
 
@@ -55,7 +59,9 @@ app.get("/", function (req, res) {
   res.json({
     message: "ok",
     data: {
-      avg
+      avg,
+      cpus,
+      userInfo,
     },
   });
 });
